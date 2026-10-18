@@ -409,6 +409,9 @@ endif
 ifneq ($(wildcard bootable/deprecated-ota/applypatch),)
   $(call soong_config_set_bool,otatools,use_bootable_deprecated_ota_applypatch,true)
 endif
+ifneq ($(wildcard device/generic/goldfish/Android.bp),)
+  $(call soong_config_set_bool,otatools,use_mk_combined_img,true)
+endif
 
 # Flags used in building continuous_native_tests
 ifeq ($(BOARD_IS_AUTOMOTIVE), true)

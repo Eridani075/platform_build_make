@@ -159,7 +159,6 @@ cc_genrule {
         ":make_f2fs_casefold",
         ":merge_ota",
         ":merge_target_files",
-        "//device/generic/goldfish:mk_combined_img",
         ":mkbootfs",
         ":mkbootimg",
         ":mke2fs",
@@ -192,7 +191,10 @@ cc_genrule {
         ":zip2zip",
         ":zipalign",
         ":zucchini",
-    ] + select(soong_config_variable("otatools", "use_build_mixed_kernels_ramdisk"), {
+    ] + select(soong_config_variable("otatools", "use_mk_combined_img"), {
+        true: ["//device/generic/goldfish:mk_combined_img"],
+        default: [],
+    }) + select(soong_config_variable("otatools", "use_build_mixed_kernels_ramdisk"), {
         true: [":build_mixed_kernels_ramdisk_host"],
         default: [],
     }) + select(soong_config_variable("otatools", "use_bootable_deprecated_ota_applypatch"), {
