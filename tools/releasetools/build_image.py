@@ -565,7 +565,9 @@ def BuildImage(in_dir, prop_dict, out_file, target_out=None, otatools_dir=None):
     logger.info(
         "The tree size of %s is %d MB.", in_dir, size // BYTES_IN_MB)
     if fs_type.startswith("ext"):
-      size = int(size * 1.2) + int(prop_dict.get("partition_reserved_size", 0))
+      size = max(
+          CalculateSizeAndReserved(prop_dict, size),
+          int(size * 1.2) + int(prop_dict.get("partition_reserved_size", 0)))
     else:
       size = CalculateSizeAndReserved(prop_dict, size)
     # Round this up to a multiple of 4K so that avbtool works
